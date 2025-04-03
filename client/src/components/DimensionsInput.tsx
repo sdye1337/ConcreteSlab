@@ -11,9 +11,10 @@ const HelpTooltip = ({ text }: { text: string }) => (
     <div className="flex items-center justify-center w-6 h-6 rounded-full bg-blue-50 cursor-pointer text-blue-600 hover:bg-blue-100 shadow-sm border border-blue-100">
       <HelpCircle className="h-4 w-4" />
     </div>
-    <div className="absolute left-1/2 -translate-x-1/2 mt-1 z-20 origin-top hidden group-hover:block">
-      <div className="bg-white shadow-lg rounded-md w-64 p-3 text-xs text-gray-700 border border-gray-200">
+    <div className="absolute left-0 -top-1 mt-1 z-20 hidden group-hover:block">
+      <div className="bg-white shadow-lg rounded-md w-64 p-3 text-xs text-gray-700 border border-gray-200 -translate-y-full">
         {text}
+        <div className="absolute h-2 w-2 bg-white transform rotate-45 left-3 bottom-0 translate-y-1 border-r border-b border-gray-200"></div>
       </div>
     </div>
   </div>
@@ -70,16 +71,18 @@ const DimensionsInput = ({
             <HelpCircle className="h-4 w-4 mr-1.5" />
             How to use
           </div>
-          <div className="absolute right-0 mt-1 z-10 origin-top-right hidden group-hover:block">
-            <div className="bg-white shadow-lg rounded-md w-72 p-4 text-sm text-gray-700 border border-gray-200">
+          <div className="absolute right-0 top-0 z-10 hidden group-hover:block">
+            <div className="bg-white shadow-lg rounded-md w-72 p-4 text-sm text-gray-700 border border-gray-200 -translate-y-full mt-[-10px]">
               <h3 className="font-semibold text-blue-700 mb-2">How to Use the Calculator</h3>
               <ol className="list-decimal pl-5 space-y-2">
-                <li>Enter the <span className="font-medium">length</span>, <span className="font-medium">width</span>, and <span className="font-medium">thickness</span> of your concrete slab</li>
+                <li>Select a <span className="font-medium">shape type</span> (rectangular, circular, or custom area)</li>
+                <li>Enter the required dimensions based on your selected shape</li>
+                <li>Specify the <span className="font-medium">thickness</span> of your concrete slab</li>
                 <li>Enter the <span className="font-medium">price</span> of concrete per cubic meter/yard</li>
                 <li>The calculator will automatically show you the volume and cost</li>
-                <li>Switch between metric and imperial units as needed</li>
-                <li>Use the "Save Calculation" button to save your results for later reference</li>
+                <li>Save or share your calculation for future reference</li>
               </ol>
+              <div className="absolute h-2 w-2 bg-white transform rotate-45 right-6 bottom-0 translate-y-1 border-r border-b border-gray-200"></div>
             </div>
           </div>
         </div>
