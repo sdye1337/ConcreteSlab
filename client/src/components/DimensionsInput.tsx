@@ -1,9 +1,11 @@
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import SlabVisualization from "./SlabVisualization";
-import { ChangeEvent, useCallback } from "react";
+import { ChangeEvent, useCallback, useState } from "react";
 import { RulerIcon, BoxIcon, LayersIcon, DollarSignIcon, HelpCircle, SquareIcon, CircleIcon, ShapesIcon } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import DimensionUnitSelector from "./DimensionUnitSelector";
+import { getUnitsForSystem, convertValue, formatNumber } from "@/lib/utils";
 
 // Helper component for tooltips
 const HelpTooltip = ({ text }: { text: string }) => (
@@ -43,8 +45,40 @@ const DimensionsInput = ({
   onPriceChange,
   onSlabTypeChange
 }: DimensionsInputProps) => {
-  const unitDisplay = unitType === "metric" ? "m" : "ft";
+  // Default units for each dimension 
+  const [lengthUnit, setLengthUnit] = useState<string>(unitType === "metric" ? "m" : "ft");
+  const [widthUnit, setWidthUnit] = useState<string>(unitType === "metric" ? "m" : "ft");
+  const [thicknessUnit, setThicknessUnit] = useState<string>(unitType === "metric" ? "m" : "ft");
   const priceUnit = unitType === "metric" ? "m³" : "yd³";
+  
+  // Handle dimension unit change
+  const handleUnitChange = (dimensionName: string, newUnit: string) => {
+    // Get current dimension value and unit
+    let currentValue = 0;
+    let currentUnit = "";
+
+    switch (dimensionName) {
+      case "length":
+        currentValue = dimensions.length;
+        currentUnit = lengthUnit;
+        setLengthUnit(newUnit);
+        break;
+      case "width":
+        currentValue = dimensions.width;
+        currentUnit = widthUnit;
+        setWidthUnit(newUnit);
+        break;
+      case "thickness":
+        currentValue = dimensions.thickness;
+        currentUnit = thicknessUnit;
+        setThicknessUnit(newUnit);
+        break;
+    }
+
+    // Convert value to the new unit
+    const convertedValue = convertValue(currentValue, currentUnit, newUnit);
+    onDimensionChange(dimensionName, convertedValue);
+  };
   
   const handleInputChange = useCallback((e: ChangeEvent<HTMLInputElement>, name: string) => {
     const value = parseFloat(e.target.value);
@@ -132,19 +166,25 @@ const DimensionsInput = ({
                     <Label htmlFor="length" className="text-sm font-medium text-gray-700 mr-2">Length:</Label>
                     <HelpTooltip text="The horizontal distance from one end of the slab to the other. For a rectangular slab, this is typically the longer dimension." />
                   </div>
-                  <div className="relative w-full">
-                    <Input
-                      id="length"
-                      type="number"
-                      placeholder="0.00"
-                      value={dimensions.length}
-                      min={0.1}
-                      step={0.1}
-                      onChange={(e) => handleInputChange(e, "length")}
-                      className="pr-10 h-12 font-medium w-full"
-                    />
-                    <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
-                      <span className="text-gray-500 sm:text-sm font-medium">{unitDisplay}</span>
+                  <div className="flex w-full">
+                    <div className="relative flex-grow">
+                      <Input
+                        id="length"
+                        type="number"
+                        placeholder="0.00"
+                        value={dimensions.length}
+                        min={0.1}
+                        step={0.1}
+                        onChange={(e) => handleInputChange(e, "length")}
+                        className="h-12 font-medium pr-3 w-full"
+                      />
+                    </div>
+                    <div className="ml-2">
+                      <DimensionUnitSelector 
+                        unit={lengthUnit}
+                        unitType={unitType}
+                        onUnitChange={(unit) => handleUnitChange("length", unit)}
+                      />
                     </div>
                   </div>
                 </div>
@@ -160,19 +200,25 @@ const DimensionsInput = ({
                     <Label htmlFor="width" className="text-sm font-medium text-gray-700 mr-2">Width:</Label>
                     <HelpTooltip text="The horizontal distance across the slab perpendicular to the length. For a rectangular slab, this is typically the shorter dimension." />
                   </div>
-                  <div className="relative w-full">
-                    <Input
-                      id="width"
-                      type="number"
-                      placeholder="0.00"
-                      value={dimensions.width}
-                      min={0.1}
-                      step={0.1}
-                      onChange={(e) => handleInputChange(e, "width")}
-                      className="pr-10 h-12 font-medium w-full"
-                    />
-                    <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
-                      <span className="text-gray-500 sm:text-sm font-medium">{unitDisplay}</span>
+                  <div className="flex w-full">
+                    <div className="relative flex-grow">
+                      <Input
+                        id="width"
+                        type="number"
+                        placeholder="0.00"
+                        value={dimensions.width}
+                        min={0.1}
+                        step={0.1}
+                        onChange={(e) => handleInputChange(e, "width")}
+                        className="h-12 font-medium pr-3 w-full"
+                      />
+                    </div>
+                    <div className="ml-2">
+                      <DimensionUnitSelector 
+                        unit={widthUnit}
+                        unitType={unitType}
+                        onUnitChange={(unit) => handleUnitChange("width", unit)}
+                      />
                     </div>
                   </div>
                 </div>
@@ -190,19 +236,25 @@ const DimensionsInput = ({
                     <Label htmlFor="diameter" className="text-sm font-medium text-gray-700 mr-2">Diameter:</Label>
                     <HelpTooltip text="The diameter is the distance across a circle through its center. For a circular slab, this is the widest point." />
                   </div>
-                  <div className="relative w-full">
-                    <Input
-                      id="diameter"
-                      type="number"
-                      placeholder="0.00"
-                      value={dimensions.length} // Using length field for diameter
-                      min={0.1}
-                      step={0.1}
-                      onChange={(e) => handleInputChange(e, "length")}
-                      className="pr-10 h-12 font-medium w-full"
-                    />
-                    <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
-                      <span className="text-gray-500 sm:text-sm font-medium">{unitDisplay}</span>
+                  <div className="flex w-full">
+                    <div className="relative flex-grow">
+                      <Input
+                        id="diameter"
+                        type="number"
+                        placeholder="0.00"
+                        value={dimensions.length} // Using length field for diameter
+                        min={0.1}
+                        step={0.1}
+                        onChange={(e) => handleInputChange(e, "length")}
+                        className="h-12 font-medium pr-3 w-full"
+                      />
+                    </div>
+                    <div className="ml-2">
+                      <DimensionUnitSelector 
+                        unit={lengthUnit}
+                        unitType={unitType}
+                        onUnitChange={(unit) => handleUnitChange("length", unit)}
+                      />
                     </div>
                   </div>
                 </div>
@@ -220,26 +272,30 @@ const DimensionsInput = ({
                     <Label htmlFor="area" className="text-sm font-medium text-gray-700 mr-2">Area:</Label>
                     <HelpTooltip text="The total surface area of your slab. For irregularly shaped slabs, measure or calculate the area directly." />
                   </div>
-                  <div className="relative w-full">
-                    <Input
-                      id="area"
-                      type="number"
-                      placeholder="0.00"
-                      value={dimensions.length * dimensions.width} // Area calculation
-                      min={0.1}
-                      step={0.1}
-                      onChange={(e) => {
-                        // Set length to sqrt of area and width to 1 for calculation purposes
-                        const area = parseFloat(e.target.value);
-                        if (!isNaN(area)) {
-                          onDimensionChange("length", Math.sqrt(area));
-                          onDimensionChange("width", 1);
-                        }
-                      }}
-                      className="pr-16 h-12 font-medium w-full"
-                    />
-                    <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
-                      <span className="text-gray-500 sm:text-sm font-medium">{unitType === "metric" ? "m²" : "ft²"}</span>
+                  <div className="flex w-full">
+                    <div className="relative flex-grow">
+                      <Input
+                        id="area"
+                        type="number"
+                        placeholder="0.00"
+                        value={dimensions.length * dimensions.width} // Area calculation
+                        min={0.1}
+                        step={0.1}
+                        onChange={(e) => {
+                          // Set length to sqrt of area and width to 1 for calculation purposes
+                          const area = parseFloat(e.target.value);
+                          if (!isNaN(area)) {
+                            onDimensionChange("length", Math.sqrt(area));
+                            onDimensionChange("width", 1);
+                          }
+                        }}
+                        className="h-12 font-medium pr-3 w-full"
+                      />
+                    </div>
+                    <div className="ml-2 flex items-center">
+                      <div className="h-12 px-3 flex items-center justify-center bg-gray-100 rounded-md border border-gray-200 text-gray-600 font-medium text-sm">
+                        {unitType === "metric" ? "m²" : "ft²"}
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -256,19 +312,25 @@ const DimensionsInput = ({
                   <Label htmlFor="thickness" className="text-sm font-medium text-gray-700 mr-2">Thickness:</Label>
                   <HelpTooltip text="The vertical height or depth of the slab. Standard slabs are typically 4-6 inches (0.1-0.15m) thick, but may vary based on application." />
                 </div>
-                <div className="relative w-full">
-                  <Input
-                    id="thickness"
-                    type="number"
-                    placeholder="0.00"
-                    value={dimensions.thickness}
-                    min={0.05}
-                    step={0.05}
-                    onChange={(e) => handleInputChange(e, "thickness")}
-                    className="pr-10 h-12 font-medium w-full"
-                  />
-                  <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
-                    <span className="text-gray-500 sm:text-sm font-medium">{unitDisplay}</span>
+                <div className="flex w-full">
+                  <div className="relative flex-grow">
+                    <Input
+                      id="thickness"
+                      type="number"
+                      placeholder="0.00"
+                      value={dimensions.thickness}
+                      min={0.05}
+                      step={0.05}
+                      onChange={(e) => handleInputChange(e, "thickness")}
+                      className="h-12 font-medium pr-3 w-full"
+                    />
+                  </div>
+                  <div className="ml-2">
+                    <DimensionUnitSelector 
+                      unit={thicknessUnit}
+                      unitType={unitType}
+                      onUnitChange={(unit) => handleUnitChange("thickness", unit)}
+                    />
                   </div>
                 </div>
               </div>
@@ -281,18 +343,23 @@ const DimensionsInput = ({
               </div>
               <div className="flex-1 flex flex-col w-full">
                 <div className="flex items-center justify-between mb-2">
-                  <Label htmlFor="price" className="text-sm font-medium text-gray-700 mr-2">Price:</Label>
-                  <HelpTooltip text={`The cost of concrete per cubic ${unitType === "metric" ? "meter" : "yard"}. This varies by location and concrete type. You may need to check with local suppliers for accurate pricing.`} />
+                  <Label htmlFor="price" className="text-sm font-medium text-gray-700 mr-2">Price (Optional):</Label>
+                  <HelpTooltip text={`The cost of concrete per cubic ${unitType === "metric" ? "meter" : "yard"}. This is optional, but helps estimate the total project cost. Price varies by location and concrete type.`} />
                 </div>
                 <div className="relative w-full">
                   <Input
                     id="price"
                     type="number" 
-                    placeholder="0.00" 
-                    value={price}
+                    placeholder="0.00 (Optional)" 
+                    value={price || ''}
                     min={1}
                     step={1}
-                    onChange={(e) => handleInputChange(e, "price")}
+                    onChange={(e) => {
+                      const value = e.target.value === '' ? 0 : parseFloat(e.target.value);
+                      if (!isNaN(value)) {
+                        onPriceChange(value);
+                      }
+                    }}
                     className="pl-8 pr-16 h-12 font-medium w-full"
                   />
                   <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
