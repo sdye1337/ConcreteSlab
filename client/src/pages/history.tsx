@@ -1,4 +1,4 @@
-import { History } from "lucide-react";
+import { History, Clock, ArrowLeft } from "lucide-react";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { format } from "date-fns";
 import { useToast } from "@/hooks/use-toast";
@@ -44,19 +44,33 @@ const HistoryPage = () => {
   };
 
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col min-h-screen bg-gray-50">
       {/* Header */}
-      <header className="bg-surface shadow-sm px-4 py-3 flex items-center justify-between sticky top-0 z-10">
+      <header className="bg-white shadow-sm px-4 py-3 flex items-center justify-between sticky top-0 z-10">
         <div className="flex items-center space-x-2">
-          <History className="h-6 w-6 text-primary" />
-          <h1 className="text-lg font-bold text-secondary">Calculation History</h1>
+          <div className="bg-primary bg-opacity-10 p-1.5 rounded-md">
+            <History className="h-5 w-5 text-primary" />
+          </div>
+          <h1 className="text-lg font-bold text-gray-800">Calculation History</h1>
         </div>
+        <Button 
+          variant="ghost" 
+          size="sm" 
+          className="h-7 px-2 text-gray-600 hover:text-gray-800"
+          onClick={() => navigate("/")}
+        >
+          <ArrowLeft className="h-4 w-4 mr-1" />
+          Back
+        </Button>
       </header>
 
       {/* Main Content */}
-      <main className="flex-1 overflow-y-auto pb-16">
+      <main className="flex-1 overflow-y-auto pb-20">
         <div className="container mx-auto px-4 py-6 max-w-md">
-          <h2 className="text-base font-semibold mb-4">All Saved Calculations</h2>
+          <h2 className="text-base font-semibold mb-4 flex items-center">
+            <Clock className="h-4 w-4 mr-1.5 text-primary" />
+            All Saved Calculations
+          </h2>
 
           {isLoading ? (
             <div className="py-8 text-center">
@@ -64,8 +78,10 @@ const HistoryPage = () => {
               <p className="mt-4 text-gray-500">Loading calculations...</p>
             </div>
           ) : calculations.length === 0 ? (
-            <div className="bg-surface rounded-xl shadow-sm p-8 text-center">
-              <History className="h-12 w-12 text-gray-400 mx-auto mb-3" />
+            <div className="bg-white rounded-xl shadow-sm p-8 text-center">
+              <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <History className="h-8 w-8 text-gray-400" />
+              </div>
               <h3 className="text-lg font-medium text-gray-700 mb-2">No saved calculations</h3>
               <p className="text-gray-500 text-sm mb-6">
                 You haven't saved any calculations yet. Save calculations from the calculator to see them here.
@@ -82,40 +98,41 @@ const HistoryPage = () => {
               {calculations.map((calculation) => (
                 <div 
                   key={calculation.id} 
-                  className="bg-surface rounded-xl shadow-sm p-4 relative"
+                  className="bg-white rounded-xl shadow-sm p-4 relative border border-gray-100"
                 >
-                  <div className="text-xs text-gray-500 mb-2">
+                  <div className="text-xs text-gray-500 mb-2 flex items-center">
+                    <Clock className="h-3 w-3 mr-1 text-gray-400" />
                     {format(new Date(calculation.date), "MMMM d, yyyy, h:mm a")}
                   </div>
                   <div className="flex">
                     {/* Mini visualization */}
-                    <div className="w-16 h-16 bg-blue-50 rounded-md border border-blue-100 flex items-center justify-center flex-shrink-0 mr-3">
-                      <div className="w-10 h-10 bg-blue-100 rounded-sm relative">
-                        <div className="absolute -bottom-1 -right-1 text-xs font-medium text-primary">
-                          {calculation.length}×{calculation.width}
+                    <div className="w-16 h-16 bg-gradient-to-br from-blue-50 to-blue-100 rounded-md border border-blue-200 flex items-center justify-center flex-shrink-0 mr-3 shadow-sm">
+                      <div className="w-10 h-10 bg-blue-100 rounded-sm relative border border-blue-200">
+                        <div className="absolute -bottom-1 -right-1 text-xs font-medium text-primary bg-white px-1 rounded-sm shadow-sm border border-blue-200">
+                          {calculation.length.toFixed(1)}×{calculation.width.toFixed(1)}
                         </div>
                       </div>
                     </div>
                     
                     <div className="flex-1">
-                      <p className="text-sm font-medium text-gray-700">
+                      <p className="text-sm font-medium text-gray-800">
                         {calculation.length}{calculation.unitType === "metric" ? "m" : "ft"} × {calculation.width}{calculation.unitType === "metric" ? "m" : "ft"} × {calculation.thickness}{calculation.unitType === "metric" ? "m" : "ft"}
                       </p>
-                      <div className="flex text-xs text-gray-500 mt-1 space-x-3">
-                        <span>
+                      <div className="flex text-xs text-gray-500 mt-1.5 space-x-3">
+                        <span className="bg-blue-50 px-2 py-0.5 rounded-full border border-blue-100">
                           Volume: <strong className="text-primary">
                             {calculation.volume.toFixed(2)} {calculation.unitType === "metric" ? "m³" : "yd³"}
                           </strong>
                         </span>
-                        <span>
-                          Cost: <strong className="text-accent">${calculation.cost.toFixed(2)}</strong>
+                        <span className="bg-green-50 px-2 py-0.5 rounded-full border border-green-100">
+                          Cost: <strong className="text-green-600">${calculation.cost.toFixed(2)}</strong>
                         </span>
                       </div>
-                      <div className="flex mt-3 space-x-3">
+                      <div className="flex mt-3 space-x-2">
                         <Button 
                           size="sm" 
                           variant="outline"
-                          className="text-xs flex items-center"
+                          className="text-xs flex items-center h-8 px-3 bg-white"
                           onClick={() => handleLoadCalculation(calculation)}
                         >
                           <RefreshCcw className="h-3 w-3 mr-1" />
@@ -126,7 +143,7 @@ const HistoryPage = () => {
                             <Button
                               size="sm"
                               variant="outline"
-                              className="text-xs flex items-center text-red-600 border-red-200 hover:bg-red-50"
+                              className="text-xs flex items-center h-8 px-3 text-red-600 border-red-200 hover:bg-red-50 bg-white"
                             >
                               <Trash2 className="h-3 w-3 mr-1" />
                               Delete

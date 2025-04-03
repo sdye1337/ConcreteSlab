@@ -3,8 +3,7 @@ import UnitSelector from "@/components/UnitSelector";
 import DimensionsInput from "@/components/DimensionsInput";
 import CalculationResults from "@/components/CalculationResults";
 import RecentCalculations from "@/components/RecentCalculations";
-import { Building2 } from "lucide-react";
-import { Plus } from "lucide-react";
+import { Building2, Calculator } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import type { Calculation } from "@shared/schema";
 
@@ -59,7 +58,7 @@ const HomePage = () => {
       setDimensions({
         length: parseFloat((dimensions.length * 3.28084).toFixed(2)),
         width: parseFloat((dimensions.width * 3.28084).toFixed(2)),
-        thickness: parseFloat((dimensions.thickness * 3.28084).toFixed(2)),
+        thickness: parseFloat((dimensions.thickness * 3.28084).toFixed(3)),
       });
       // Convert price from per m³ to per yd³
       setPrice(parseFloat((price * 0.764555).toFixed(2)));
@@ -68,7 +67,7 @@ const HomePage = () => {
       setDimensions({
         length: parseFloat((dimensions.length / 3.28084).toFixed(2)),
         width: parseFloat((dimensions.width / 3.28084).toFixed(2)),
-        thickness: parseFloat((dimensions.thickness / 3.28084).toFixed(2)),
+        thickness: parseFloat((dimensions.thickness / 3.28084).toFixed(3)),
       });
       // Convert price from per yd³ to per m³
       setPrice(parseFloat((price / 0.764555).toFixed(2)));
@@ -106,20 +105,22 @@ const HomePage = () => {
   };
 
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col min-h-screen bg-gray-50">
       {/* Header */}
-      <header className="bg-surface shadow-sm px-4 py-3 flex items-center justify-between sticky top-0 z-10">
+      <header className="bg-white shadow-sm px-4 py-3 flex items-center justify-between sticky top-0 z-10">
         <div className="flex items-center space-x-2">
-          <Building2 className="h-6 w-6 text-primary" />
-          <h1 className="text-lg font-bold text-secondary">Concrete Slab Calculator</h1>
+          <div className="bg-primary bg-opacity-10 p-1.5 rounded-md">
+            <Calculator className="h-5 w-5 text-primary" />
+          </div>
+          <h1 className="text-lg font-bold text-gray-800">Concrete Slab Calculator</h1>
         </div>
-        <button className="p-1.5 rounded-full hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-opacity-50">
-          <Plus className="h-5 w-5 text-secondary" />
-        </button>
+        <div className="w-7 h-7 flex items-center justify-center rounded-full bg-blue-50">
+          <Building2 className="h-4 w-4 text-primary" />
+        </div>
       </header>
 
       {/* Main Content */}
-      <main className="flex-1 overflow-y-auto pb-16">
+      <main className="flex-1 overflow-y-auto pb-20">
         <div className="container mx-auto px-4 py-6 max-w-md">
           <UnitSelector 
             unitType={unitType} 
