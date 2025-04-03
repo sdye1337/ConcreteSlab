@@ -23,6 +23,7 @@ const DEFAULT_IMPERIAL = {
 
 const HomePage = () => {
   const [unitType, setUnitType] = useState<string>("metric");
+  const [slabType, setSlabType] = useState<string>("rectangular");
   const [dimensions, setDimensions] = useState({
     length: DEFAULT_METRIC.length,
     width: DEFAULT_METRIC.width,
@@ -37,14 +38,28 @@ const HomePage = () => {
   });
 
   const calculateResults = useCallback(() => {
-    // Calculate volume
-    const newVolume = dimensions.length * dimensions.width * dimensions.thickness;
+    // Calculate volume based on shape type
+    let area = 0;
+    
+    if (slabType === "rectangular") {
+      // For rectangular: length × width
+      area = dimensions.length * dimensions.width;
+    } else if (slabType === "circular") {
+      // For circular: π × (diameter/2)²
+      const radius = dimensions.length / 2; // length is used for diameter
+      area = Math.PI * radius * radius;
+    } else if (slabType === "custom") {
+      // For custom: already have area directly (length * width but width is set to 1)
+      area = dimensions.length * dimensions.width;
+    }
+    
+    const newVolume = area * dimensions.thickness;
     setVolume(parseFloat(newVolume.toFixed(2)));
     
     // Calculate cost
     const newCost = newVolume * price;
     setCost(parseFloat(newCost.toFixed(2)));
-  }, [dimensions, price]);
+  }, [dimensions, price, slabType]);
 
   useEffect(() => {
     calculateResults();
@@ -85,6 +100,10 @@ const HomePage = () => {
 
   const handlePriceChange = (newPrice: number) => {
     setPrice(newPrice);
+  };
+  
+  const handleSlabTypeChange = (newType: string) => {
+    setSlabType(newType);
   };
 
   const handleLoadCalculation = (calculation: Calculation) => {
@@ -131,8 +150,10 @@ const HomePage = () => {
             dimensions={dimensions} 
             price={price}
             unitType={unitType}
+            slabType={slabType}
             onDimensionChange={handleDimensionChange}
             onPriceChange={handlePriceChange}
+            onSlabTypeChange={handleSlabTypeChange}
           />
           
           <CalculationResults 

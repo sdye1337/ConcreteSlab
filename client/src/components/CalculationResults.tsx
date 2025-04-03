@@ -16,6 +16,7 @@ interface CalculationResultsProps {
     thickness: number;
   };
   unitType: string;
+  slabType?: string;
 }
 
 const CalculationResults = ({ 
@@ -23,7 +24,8 @@ const CalculationResults = ({
   cost, 
   price,
   dimensions,
-  unitType
+  unitType,
+  slabType = "rectangular"
 }: CalculationResultsProps) => {
   const { toast } = useToast();
   const volumeUnit = unitType === "metric" ? "cubic meters (m³)" : "cubic yards (yd³)";
@@ -58,15 +60,26 @@ const CalculationResults = ({
       volume,
       cost,
       price,
-      unitType
+      unitType,
+      slabType
     });
   };
   
   const handleShareCalculation = () => {
+    let shareText = "";
+    
+    if (slabType === "rectangular") {
+      shareText = `My ${slabType} concrete slab calculation: ${dimensions.length}${unitType === "metric" ? "m" : "ft"} × ${dimensions.width}${unitType === "metric" ? "m" : "ft"} × ${dimensions.thickness}${unitType === "metric" ? "m" : "ft"} = ${volume.toFixed(2)}${shortVolumeUnit}, cost: $${cost.toFixed(2)}`;
+    } else if (slabType === "circular") {
+      shareText = `My ${slabType} concrete slab calculation: diameter ${dimensions.length}${unitType === "metric" ? "m" : "ft"} × thickness ${dimensions.thickness}${unitType === "metric" ? "m" : "ft"} = ${volume.toFixed(2)}${shortVolumeUnit}, cost: $${cost.toFixed(2)}`;
+    } else if (slabType === "custom") {
+      shareText = `My ${slabType} concrete slab calculation: area ${(dimensions.length * dimensions.width).toFixed(2)}${unitType === "metric" ? "m²" : "ft²"} × thickness ${dimensions.thickness}${unitType === "metric" ? "m" : "ft"} = ${volume.toFixed(2)}${shortVolumeUnit}, cost: $${cost.toFixed(2)}`;
+    }
+    
     if (navigator.share) {
       navigator.share({
         title: "Concrete Slab Calculation",
-        text: `My concrete slab calculation: ${dimensions.length}${unitType === "metric" ? "m" : "ft"} × ${dimensions.width}${unitType === "metric" ? "m" : "ft"} × ${dimensions.thickness}${unitType === "metric" ? "m" : "ft"} = ${volume.toFixed(2)}${shortVolumeUnit}, cost: $${cost.toFixed(2)}`,
+        text: shareText,
       }).catch((error) => {
         toast({
           title: "Sharing failed",
@@ -107,14 +120,38 @@ const CalculationResults = ({
                   <p className="font-medium text-blue-700">Volume Calculation</p>
                   <div className="mt-1 text-gray-700">
                     <p>Volume is calculated using the formula:</p>
-                    <div className="font-mono bg-white/70 p-2 rounded mt-1 text-blue-800 border border-blue-200">
-                      Volume = Length × Width × Thickness
-                    </div>
+                    {slabType === "rectangular" && (
+                      <div className="font-mono bg-white/70 p-2 rounded mt-1 text-blue-800 border border-blue-200">
+                        Volume = Length × Width × Thickness
+                      </div>
+                    )}
+                    {slabType === "circular" && (
+                      <div className="font-mono bg-white/70 p-2 rounded mt-1 text-blue-800 border border-blue-200">
+                        Volume = π × (Diameter/2)² × Thickness
+                      </div>
+                    )}
+                    {slabType === "custom" && (
+                      <div className="font-mono bg-white/70 p-2 rounded mt-1 text-blue-800 border border-blue-200">
+                        Volume = Area × Thickness
+                      </div>
+                    )}
                     <div className="mt-2">
                       <p>For your slab:</p>
-                      <p className="font-mono bg-white/70 p-2 rounded mt-1 text-blue-800 border border-blue-200">
-                        {dimensions.length} × {dimensions.width} × {dimensions.thickness} = {volume.toFixed(2)} {shortVolumeUnit}
-                      </p>
+                      {slabType === "rectangular" && (
+                        <p className="font-mono bg-white/70 p-2 rounded mt-1 text-blue-800 border border-blue-200">
+                          {dimensions.length} × {dimensions.width} × {dimensions.thickness} = {volume.toFixed(2)} {shortVolumeUnit}
+                        </p>
+                      )}
+                      {slabType === "circular" && (
+                        <p className="font-mono bg-white/70 p-2 rounded mt-1 text-blue-800 border border-blue-200">
+                          π × ({dimensions.length}/2)² × {dimensions.thickness} = {volume.toFixed(2)} {shortVolumeUnit}
+                        </p>
+                      )}
+                      {slabType === "custom" && (
+                        <p className="font-mono bg-white/70 p-2 rounded mt-1 text-blue-800 border border-blue-200">
+                          {(dimensions.length * dimensions.width).toFixed(2)} {unitType === "metric" ? "m²" : "ft²"} × {dimensions.thickness} = {volume.toFixed(2)} {shortVolumeUnit}
+                        </p>
+                      )}
                     </div>
                     {unitType === "imperial" && (
                       <p className="text-xs mt-2 italic">Note: For imperial measurements, we convert from cubic feet to cubic yards for standard industry pricing (27 cubic feet = 1 cubic yard).</p>
@@ -159,9 +196,21 @@ const CalculationResults = ({
                   <p>This is the total amount of concrete needed for your slab.</p>
                   <div className="bg-blue-50 p-2 rounded border border-blue-100 mt-2">
                     <p className="font-medium">Your calculation:</p>
-                    <p className="mt-1">
-                      {dimensions.length} {unitType === "metric" ? "m" : "ft"} × {dimensions.width} {unitType === "metric" ? "m" : "ft"} × {dimensions.thickness} {unitType === "metric" ? "m" : "ft"} = {volume.toFixed(2)} {shortVolumeUnit}
-                    </p>
+                    {slabType === "rectangular" && (
+                      <p className="mt-1">
+                        {dimensions.length} {unitType === "metric" ? "m" : "ft"} × {dimensions.width} {unitType === "metric" ? "m" : "ft"} × {dimensions.thickness} {unitType === "metric" ? "m" : "ft"} = {volume.toFixed(2)} {shortVolumeUnit}
+                      </p>
+                    )}
+                    {slabType === "circular" && (
+                      <p className="mt-1">
+                        π × ({dimensions.length}/2)² × {dimensions.thickness} {unitType === "metric" ? "m" : "ft"} = {volume.toFixed(2)} {shortVolumeUnit}
+                      </p>
+                    )}
+                    {slabType === "custom" && (
+                      <p className="mt-1">
+                        {(dimensions.length * dimensions.width).toFixed(2)} {unitType === "metric" ? "m²" : "ft²"} × {dimensions.thickness} {unitType === "metric" ? "m" : "ft"} = {volume.toFixed(2)} {shortVolumeUnit}
+                      </p>
+                    )}
                   </div>
                 </div>
               </PopoverContent>
@@ -170,7 +219,15 @@ const CalculationResults = ({
 
           <div>
             <h3 className="text-sm font-medium text-gray-800">Concrete Volume:</h3>
-            <p className="text-xs text-gray-600 mt-0.5">Length × Width × Thickness</p>
+            {slabType === "rectangular" && (
+              <p className="text-xs text-gray-600 mt-0.5">Length × Width × Thickness</p>
+            )}
+            {slabType === "circular" && (
+              <p className="text-xs text-gray-600 mt-0.5">π × (Diameter/2)² × Thickness</p>
+            )}
+            {slabType === "custom" && (
+              <p className="text-xs text-gray-600 mt-0.5">Area × Thickness</p>
+            )}
           </div>
           <div className="text-right">
             <p className="text-xl font-bold text-primary">{volume.toFixed(2)}</p>

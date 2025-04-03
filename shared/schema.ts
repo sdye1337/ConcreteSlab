@@ -27,6 +27,7 @@ export const calculations = pgTable("calculations", {
   cost: doublePrecision("cost").notNull(),
   price: doublePrecision("price").notNull(),
   unitType: text("unit_type").notNull(),
+  slabType: text("slab_type").default("rectangular"),
 });
 
 export const insertCalculationSchema = createInsertSchema(calculations).pick({
@@ -37,6 +38,7 @@ export const insertCalculationSchema = createInsertSchema(calculations).pick({
   cost: true,
   price: true,
   unitType: true,
+  slabType: true,
 });
 
 export type InsertCalculation = z.infer<typeof insertCalculationSchema>;
