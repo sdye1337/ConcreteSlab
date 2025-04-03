@@ -6,12 +6,12 @@ import { RulerIcon, BoxIcon, LayersIcon, DollarSignIcon, HelpCircle } from "luci
 
 // Helper component for tooltips
 const HelpTooltip = ({ text }: { text: string }) => (
-  <div className="group relative inline-block ml-1.5">
-    <div className="flex items-center justify-center w-5 h-5 rounded-full bg-gray-100 cursor-pointer text-gray-500 hover:bg-blue-100 hover:text-blue-600">
-      <HelpCircle className="h-3.5 w-3.5" />
+  <div className="group relative inline-block ml-2">
+    <div className="flex items-center justify-center w-6 h-6 rounded-full bg-blue-50 cursor-pointer text-blue-600 hover:bg-blue-100 shadow-sm border border-blue-100">
+      <HelpCircle className="h-4 w-4" />
     </div>
-    <div className="absolute left-1/2 -translate-x-1/2 mt-1 z-10 origin-top hidden group-hover:block">
-      <div className="bg-white shadow-lg rounded-md w-56 p-3 text-xs text-gray-700 border border-gray-200">
+    <div className="absolute left-1/2 -translate-x-1/2 mt-1 z-20 origin-top hidden group-hover:block">
+      <div className="bg-white shadow-lg rounded-md w-64 p-3 text-xs text-gray-700 border border-gray-200">
         {text}
       </div>
     </div>
@@ -61,8 +61,8 @@ const DimensionsInput = ({
         
         {/* Help button for How To section */}
         <div className="group relative">
-          <div className="flex items-center bg-blue-50 text-blue-700 px-2.5 py-1 rounded-full text-xs font-medium cursor-pointer hover:bg-blue-100">
-            <HelpCircle className="h-3.5 w-3.5 mr-1" />
+          <div className="flex items-center bg-blue-50 text-blue-700 px-3 py-1.5 rounded-full text-sm font-medium cursor-pointer hover:bg-blue-100 shadow-sm border border-blue-100">
+            <HelpCircle className="h-4 w-4 mr-1.5" />
             How to use
           </div>
           <div className="absolute right-0 mt-1 z-10 origin-top-right hidden group-hover:block">

@@ -146,11 +146,11 @@ const CalculationResults = ({
       <div className="space-y-4">
         {/* Volume */}
         <div className="flex justify-between items-center p-4 bg-gradient-to-r from-blue-50 to-blue-100 rounded-lg border border-blue-200 relative">
-          <div className="absolute -top-1 -right-1">
+          <div className="absolute -top-2.5 -right-2.5">
             <Popover>
               <PopoverTrigger asChild>
-                <Button size="icon" variant="outline" className="h-6 w-6 rounded-full bg-blue-100 border-blue-300 text-blue-700 hover:bg-blue-200 p-0">
-                  <HelpCircle className="h-3.5 w-3.5" />
+                <Button size="icon" variant="outline" className="h-7 w-7 rounded-full bg-blue-100 border-blue-300 text-blue-700 hover:bg-blue-200 p-0 shadow-sm">
+                  <HelpCircle className="h-4 w-4" />
                 </Button>
               </PopoverTrigger>
               <PopoverContent side="top" className="w-72 p-3 text-xs">
@@ -180,11 +180,11 @@ const CalculationResults = ({
         
         {/* Cost */}
         <div className="flex justify-between items-center p-4 bg-gradient-to-r from-green-50 to-green-100 rounded-lg border border-green-200 relative">
-          <div className="absolute -top-1 -right-1">
+          <div className="absolute -top-2.5 -right-2.5">
             <Popover>
               <PopoverTrigger asChild>
-                <Button size="icon" variant="outline" className="h-6 w-6 rounded-full bg-green-100 border-green-300 text-green-700 hover:bg-green-200 p-0">
-                  <HelpCircle className="h-3.5 w-3.5" />
+                <Button size="icon" variant="outline" className="h-7 w-7 rounded-full bg-green-100 border-green-300 text-green-700 hover:bg-green-200 p-0 shadow-sm">
+                  <HelpCircle className="h-4 w-4" />
                 </Button>
               </PopoverTrigger>
               <PopoverContent side="top" className="w-72 p-3 text-xs">
