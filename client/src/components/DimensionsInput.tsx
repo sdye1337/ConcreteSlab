@@ -13,8 +13,8 @@ const HelpTooltip = ({ text }: { text: string }) => (
     <div className="flex items-center justify-center w-6 h-6 rounded-full bg-blue-50 cursor-pointer text-blue-600 hover:bg-blue-100 shadow-sm border border-blue-100">
       <HelpCircle className="h-4 w-4" />
     </div>
-    <div className="absolute left-0 -top-1 mt-1 z-20 hidden group-hover:block">
-      <div className="bg-white shadow-lg rounded-md w-64 p-3 text-xs text-gray-700 border border-gray-200 -translate-y-full">
+    <div className="absolute md:left-0 right-0 sm:right-auto -top-1 mt-1 z-20 hidden group-hover:block">
+      <div className="bg-white shadow-lg rounded-md w-[90vw] max-w-[16rem] p-3 text-xs text-gray-700 border border-gray-200 -translate-y-full">
         {text}
         <div className="absolute h-2 w-2 bg-white transform rotate-45 left-3 bottom-0 translate-y-1 border-r border-b border-gray-200"></div>
       </div>
@@ -106,7 +106,7 @@ const DimensionsInput = ({
             How to use
           </div>
           <div className="absolute right-0 top-0 z-10 hidden group-hover:block">
-            <div className="bg-white shadow-lg rounded-md w-72 p-4 text-sm text-gray-700 border border-gray-200 -translate-y-full mt-[-10px]">
+            <div className="bg-white shadow-lg rounded-md w-[90vw] max-w-xs p-4 text-sm text-gray-700 border border-gray-200 -translate-y-full mt-[-10px]">
               <h3 className="font-semibold text-blue-700 mb-2">How to Use the Calculator</h3>
               <ol className="list-decimal pl-5 space-y-2">
                 <li>Select a <span className="font-medium">shape type</span> (rectangular, circular, or custom area)</li>

@@ -117,7 +117,7 @@ const CalculationResults = ({
               How we calculate
             </Button>
           </PopoverTrigger>
-          <PopoverContent className="w-80 p-4">
+          <PopoverContent className="w-[90vw] max-w-sm p-4 relative" align="center" side="bottom">
             <div className="space-y-3">
               <h3 className="font-medium text-sm text-primary">Calculation Methods</h3>
               
@@ -127,34 +127,34 @@ const CalculationResults = ({
                   <div className="mt-1 text-gray-700">
                     <p>Volume is calculated using the formula:</p>
                     {slabType === "rectangular" && (
-                      <div className="font-mono bg-white/70 p-2 rounded mt-1 text-blue-800 border border-blue-200">
+                      <div className="font-mono bg-white/70 p-2 rounded mt-1 text-blue-800 border border-blue-200 break-words">
                         Volume = Length × Width × Thickness
                       </div>
                     )}
                     {slabType === "circular" && (
-                      <div className="font-mono bg-white/70 p-2 rounded mt-1 text-blue-800 border border-blue-200">
+                      <div className="font-mono bg-white/70 p-2 rounded mt-1 text-blue-800 border border-blue-200 break-words">
                         Volume = π × (Diameter/2)² × Thickness
                       </div>
                     )}
                     {slabType === "custom" && (
-                      <div className="font-mono bg-white/70 p-2 rounded mt-1 text-blue-800 border border-blue-200">
+                      <div className="font-mono bg-white/70 p-2 rounded mt-1 text-blue-800 border border-blue-200 break-words">
                         Volume = Area × Thickness
                       </div>
                     )}
                     <div className="mt-2">
                       <p>For your slab:</p>
                       {slabType === "rectangular" && (
-                        <p className="font-mono bg-white/70 p-2 rounded mt-1 text-blue-800 border border-blue-200">
+                        <p className="font-mono bg-white/70 p-2 rounded mt-1 text-blue-800 border border-blue-200 break-words">
                           {formatNumber(dimensions.length, 2)} × {formatNumber(dimensions.width, 2)} × {formatNumber(dimensions.thickness, 2)} = {formatNumber(volume)} {shortVolumeUnit}
                         </p>
                       )}
                       {slabType === "circular" && (
-                        <p className="font-mono bg-white/70 p-2 rounded mt-1 text-blue-800 border border-blue-200">
+                        <p className="font-mono bg-white/70 p-2 rounded mt-1 text-blue-800 border border-blue-200 break-words">
                           π × ({formatNumber(dimensions.length, 2)}/2)² × {formatNumber(dimensions.thickness, 2)} = {formatNumber(volume)} {shortVolumeUnit}
                         </p>
                       )}
                       {slabType === "custom" && (
-                        <p className="font-mono bg-white/70 p-2 rounded mt-1 text-blue-800 border border-blue-200">
+                        <p className="font-mono bg-white/70 p-2 rounded mt-1 text-blue-800 border border-blue-200 break-words">
                           {formatNumber(dimensions.length * dimensions.width, 2)} {unitType === "metric" ? "m²" : "ft²"} × {formatNumber(dimensions.thickness, 2)} = {formatNumber(volume)} {shortVolumeUnit}
                         </p>
                       )}
@@ -169,12 +169,12 @@ const CalculationResults = ({
                   <p className="font-medium text-green-700">Cost Calculation</p>
                   <div className="mt-1 text-gray-700">
                     <p>Cost is calculated using the formula:</p>
-                    <div className="font-mono bg-white/70 p-2 rounded mt-1 text-green-800 border border-green-200">
+                    <div className="font-mono bg-white/70 p-2 rounded mt-1 text-green-800 border border-green-200 break-words">
                       Cost = Volume × Price per unit volume
                     </div>
                     <div className="mt-2">
                       <p>For your slab:</p>
-                      <p className="font-mono bg-white/70 p-2 rounded mt-1 text-green-800 border border-green-200">
+                      <p className="font-mono bg-white/70 p-2 rounded mt-1 text-green-800 border border-green-200 break-words">
                         {formatNumber(volume)} {shortVolumeUnit} × ${formatNumber(price, 2)} = ${formatNumber(cost)}
                       </p>
                     </div>
@@ -196,24 +196,24 @@ const CalculationResults = ({
                   <HelpCircle className="h-4 w-4" />
                 </Button>
               </PopoverTrigger>
-              <PopoverContent side="top" className="w-72 p-3 text-xs">
+              <PopoverContent side="top" className="w-[90vw] max-w-xs p-3 text-xs" align="center">
                 <div className="space-y-2">
                   <h4 className="font-medium">Concrete Volume Calculation</h4>
                   <p>This is the total amount of concrete needed for your slab.</p>
                   <div className="bg-blue-50 p-2 rounded border border-blue-100 mt-2">
                     <p className="font-medium">Your calculation:</p>
                     {slabType === "rectangular" && (
-                      <p className="mt-1">
+                      <p className="mt-1 break-words">
                         {formatNumber(dimensions.length, 2)} {unitType === "metric" ? "m" : "ft"} × {formatNumber(dimensions.width, 2)} {unitType === "metric" ? "m" : "ft"} × {formatNumber(dimensions.thickness, 2)} {unitType === "metric" ? "m" : "ft"} = {formatNumber(volume)} {shortVolumeUnit}
                       </p>
                     )}
                     {slabType === "circular" && (
-                      <p className="mt-1">
+                      <p className="mt-1 break-words">
                         π × ({formatNumber(dimensions.length, 2)}/2)² × {formatNumber(dimensions.thickness, 2)} {unitType === "metric" ? "m" : "ft"} = {formatNumber(volume)} {shortVolumeUnit}
                       </p>
                     )}
                     {slabType === "custom" && (
-                      <p className="mt-1">
+                      <p className="mt-1 break-words">
                         {formatNumber(dimensions.length * dimensions.width, 2)} {unitType === "metric" ? "m²" : "ft²"} × {formatNumber(dimensions.thickness, 2)} {unitType === "metric" ? "m" : "ft"} = {formatNumber(volume)} {shortVolumeUnit}
                       </p>
                     )}
@@ -250,13 +250,13 @@ const CalculationResults = ({
                   <HelpCircle className="h-4 w-4" />
                 </Button>
               </PopoverTrigger>
-              <PopoverContent side="top" className="w-72 p-3 text-xs">
+              <PopoverContent side="top" className="w-[90vw] max-w-xs p-3 text-xs" align="center">
                 <div className="space-y-2">
                   <h4 className="font-medium">Cost Calculation</h4>
                   <p>This is the estimated cost of concrete for your slab based on your specified price.</p>
                   <div className="bg-green-50 p-2 rounded border border-green-100 mt-2">
                     <p className="font-medium">Your calculation:</p>
-                    <p className="mt-1">
+                    <p className="mt-1 break-words">
                       {formatNumber(volume)} {shortVolumeUnit} × ${formatNumber(price, 2)}/{shortVolumeUnit} = ${formatNumber(cost)}
                     </p>
                   </div>
@@ -286,19 +286,19 @@ const CalculationResults = ({
                     <HelpCircle className="h-4 w-4" />
                   </Button>
                 </PopoverTrigger>
-                <PopoverContent side="top" className="w-72 p-3 text-xs">
+                <PopoverContent side="top" className="w-[90vw] max-w-xs p-3 text-xs" align="center">
                   <div className="space-y-2">
                     <h4 className="font-medium">Bags Calculation</h4>
                     <p>This is the estimated number of concrete bags needed for your project, calculated for different bag sizes.</p>
                     <div className="bg-orange-50 p-2 rounded border border-orange-100 mt-2">
                       <p className="font-medium">Your calculation:</p>
-                      <p className="mt-1">
+                      <p className="mt-1 break-words">
                         {formatNumber(volume)} {shortVolumeUnit} ÷ {unitType === "metric" ? "20kg" : "50lb"} bags = {Math.ceil(smallBags)} bags
                       </p>
-                      <p className="mt-1">
+                      <p className="mt-1 break-words">
                         {formatNumber(volume)} {shortVolumeUnit} ÷ {unitType === "metric" ? "30kg" : "60lb"} bags = {Math.ceil(mediumBags)} bags
                       </p>
-                      <p className="mt-1">
+                      <p className="mt-1 break-words">
                         {formatNumber(volume)} {shortVolumeUnit} ÷ {unitType === "metric" ? "40kg" : "80lb"} bags = {Math.ceil(largeBags)} bags
                       </p>
                     </div>
