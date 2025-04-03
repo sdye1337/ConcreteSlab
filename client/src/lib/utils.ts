@@ -5,11 +5,13 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
 
-// Format numbers with commas for thousands
+// Format numbers with commas for thousands and decimal points
 export function formatNumber(value: number, decimalPlaces = 3): string {
+  // Format with proper thousands separators (commas) and decimal points
   return value.toLocaleString('en-US', { 
     minimumFractionDigits: decimalPlaces, 
-    maximumFractionDigits: decimalPlaces 
+    maximumFractionDigits: decimalPlaces,
+    useGrouping: true
   });
 }
 

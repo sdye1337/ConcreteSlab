@@ -75,11 +75,11 @@ const CalculationResults = ({
     let shareText = "";
     
     if (slabType === "rectangular") {
-      shareText = `My ${slabType} concrete slab calculation: ${dimensions.length}${unitType === "metric" ? "m" : "ft"} × ${dimensions.width}${unitType === "metric" ? "m" : "ft"} × ${dimensions.thickness}${unitType === "metric" ? "m" : "ft"} = ${volume.toFixed(2)}${shortVolumeUnit}, cost: $${cost.toFixed(2)}`;
+      shareText = `My ${slabType} concrete slab calculation: ${formatNumber(dimensions.length, 2)}${unitType === "metric" ? "m" : "ft"} × ${formatNumber(dimensions.width, 2)}${unitType === "metric" ? "m" : "ft"} × ${formatNumber(dimensions.thickness, 2)}${unitType === "metric" ? "m" : "ft"} = ${formatNumber(volume)}${shortVolumeUnit}${price > 0 ? `, cost: $${formatNumber(cost)}` : ''}`;
     } else if (slabType === "circular") {
-      shareText = `My ${slabType} concrete slab calculation: diameter ${dimensions.length}${unitType === "metric" ? "m" : "ft"} × thickness ${dimensions.thickness}${unitType === "metric" ? "m" : "ft"} = ${volume.toFixed(2)}${shortVolumeUnit}, cost: $${cost.toFixed(2)}`;
+      shareText = `My ${slabType} concrete slab calculation: diameter ${formatNumber(dimensions.length, 2)}${unitType === "metric" ? "m" : "ft"} × thickness ${formatNumber(dimensions.thickness, 2)}${unitType === "metric" ? "m" : "ft"} = ${formatNumber(volume)}${shortVolumeUnit}${price > 0 ? `, cost: $${formatNumber(cost)}` : ''}`;
     } else if (slabType === "custom") {
-      shareText = `My ${slabType} concrete slab calculation: area ${(dimensions.length * dimensions.width).toFixed(2)}${unitType === "metric" ? "m²" : "ft²"} × thickness ${dimensions.thickness}${unitType === "metric" ? "m" : "ft"} = ${volume.toFixed(2)}${shortVolumeUnit}, cost: $${cost.toFixed(2)}`;
+      shareText = `My ${slabType} concrete slab calculation: area ${formatNumber(dimensions.length * dimensions.width, 2)}${unitType === "metric" ? "m²" : "ft²"} × thickness ${formatNumber(dimensions.thickness, 2)}${unitType === "metric" ? "m" : "ft"} = ${formatNumber(volume)}${shortVolumeUnit}${price > 0 ? `, cost: $${formatNumber(cost)}` : ''}`;
     }
     
     if (navigator.share) {
@@ -175,7 +175,7 @@ const CalculationResults = ({
                     <div className="mt-2">
                       <p>For your slab:</p>
                       <p className="font-mono bg-white/70 p-2 rounded mt-1 text-green-800 border border-green-200">
-                        {volume.toFixed(2)} {shortVolumeUnit} × ${price} = ${cost.toFixed(2)}
+                        {formatNumber(volume)} {shortVolumeUnit} × ${formatNumber(price, 2)} = ${formatNumber(cost)}
                       </p>
                     </div>
                   </div>
@@ -272,7 +272,7 @@ const CalculationResults = ({
           </div>
           <div className="text-right">
             <p className="text-xl font-bold text-green-600">${formatNumber(cost)}</p>
-            <p className="text-xs text-gray-600">based on ${price}/{shortVolumeUnit}</p>
+            <p className="text-xs text-gray-600">based on ${formatNumber(price, 2)}/{shortVolumeUnit}</p>
           </div>
         </div>
         
