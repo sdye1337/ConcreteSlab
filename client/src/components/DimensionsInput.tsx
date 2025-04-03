@@ -127,15 +127,12 @@ const DimensionsInput = ({
                 <div className="w-8 h-8 rounded-full bg-blue-50 flex items-center justify-center mr-3 flex-shrink-0">
                   <RulerIcon className="h-4 w-4 text-primary" />
                 </div>
-                <div className="flex-1 grid grid-cols-4 gap-2 items-center">
-                  <div>
-                    <div className="flex items-center space-x-1 mb-1.5">
-                      <Label htmlFor="length" className="text-sm font-medium text-gray-700">Length:</Label>
-                      <div className="flex-1"></div>
-                      <HelpTooltip text="The horizontal distance from one end of the slab to the other. For a rectangular slab, this is typically the longer dimension." />
-                    </div>
+                <div className="flex-1 flex flex-col w-full">
+                  <div className="flex items-center justify-between mb-2">
+                    <Label htmlFor="length" className="text-sm font-medium text-gray-700 mr-2">Length:</Label>
+                    <HelpTooltip text="The horizontal distance from one end of the slab to the other. For a rectangular slab, this is typically the longer dimension." />
                   </div>
-                  <div className="col-span-3 relative">
+                  <div className="relative w-full">
                     <Input
                       id="length"
                       type="number"
@@ -144,7 +141,7 @@ const DimensionsInput = ({
                       min={0.1}
                       step={0.1}
                       onChange={(e) => handleInputChange(e, "length")}
-                      className="pr-10 h-10 font-medium"
+                      className="pr-10 h-12 font-medium w-full"
                     />
                     <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
                       <span className="text-gray-500 sm:text-sm font-medium">{unitDisplay}</span>
@@ -158,15 +155,12 @@ const DimensionsInput = ({
                 <div className="w-8 h-8 rounded-full bg-blue-50 flex items-center justify-center mr-3 flex-shrink-0">
                   <RulerIcon className="h-4 w-4 text-primary rotate-90" />
                 </div>
-                <div className="flex-1 grid grid-cols-4 gap-2 items-center">
-                  <div>
-                    <div className="flex items-center space-x-1 mb-1.5">
-                      <Label htmlFor="width" className="text-sm font-medium text-gray-700">Width:</Label>
-                      <div className="flex-1"></div>
-                      <HelpTooltip text="The horizontal distance across the slab perpendicular to the length. For a rectangular slab, this is typically the shorter dimension." />
-                    </div>
+                <div className="flex-1 flex flex-col w-full">
+                  <div className="flex items-center justify-between mb-2">
+                    <Label htmlFor="width" className="text-sm font-medium text-gray-700 mr-2">Width:</Label>
+                    <HelpTooltip text="The horizontal distance across the slab perpendicular to the length. For a rectangular slab, this is typically the shorter dimension." />
                   </div>
-                  <div className="col-span-3 relative">
+                  <div className="relative w-full">
                     <Input
                       id="width"
                       type="number"
@@ -175,7 +169,7 @@ const DimensionsInput = ({
                       min={0.1}
                       step={0.1}
                       onChange={(e) => handleInputChange(e, "width")}
-                      className="pr-10 h-10 font-medium"
+                      className="pr-10 h-12 font-medium w-full"
                     />
                     <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
                       <span className="text-gray-500 sm:text-sm font-medium">{unitDisplay}</span>
@@ -191,15 +185,12 @@ const DimensionsInput = ({
                 <div className="w-8 h-8 rounded-full bg-blue-50 flex items-center justify-center mr-3 flex-shrink-0">
                   <CircleIcon className="h-4 w-4 text-primary" />
                 </div>
-                <div className="flex-1 grid grid-cols-4 gap-2 items-center">
-                  <div>
-                    <div className="flex items-center space-x-1 mb-1.5">
-                      <Label htmlFor="diameter" className="text-sm font-medium text-gray-700">Diameter:</Label>
-                      <div className="flex-1"></div>
-                      <HelpTooltip text="The diameter is the distance across a circle through its center. For a circular slab, this is the widest point." />
-                    </div>
+                <div className="flex-1 flex flex-col w-full">
+                  <div className="flex items-center justify-between mb-2">
+                    <Label htmlFor="diameter" className="text-sm font-medium text-gray-700 mr-2">Diameter:</Label>
+                    <HelpTooltip text="The diameter is the distance across a circle through its center. For a circular slab, this is the widest point." />
                   </div>
-                  <div className="col-span-3 relative">
+                  <div className="relative w-full">
                     <Input
                       id="diameter"
                       type="number"
@@ -208,7 +199,7 @@ const DimensionsInput = ({
                       min={0.1}
                       step={0.1}
                       onChange={(e) => handleInputChange(e, "length")}
-                      className="pr-10 h-10 font-medium"
+                      className="pr-10 h-12 font-medium w-full"
                     />
                     <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
                       <span className="text-gray-500 sm:text-sm font-medium">{unitDisplay}</span>
@@ -224,15 +215,12 @@ const DimensionsInput = ({
                 <div className="w-8 h-8 rounded-full bg-blue-50 flex items-center justify-center mr-3 flex-shrink-0">
                   <ShapesIcon className="h-4 w-4 text-primary" />
                 </div>
-                <div className="flex-1 grid grid-cols-4 gap-2 items-center">
-                  <div>
-                    <div className="flex items-center space-x-1 mb-1.5">
-                      <Label htmlFor="area" className="text-sm font-medium text-gray-700">Area:</Label>
-                      <div className="flex-1"></div>
-                      <HelpTooltip text="The total surface area of your slab. For irregularly shaped slabs, measure or calculate the area directly." />
-                    </div>
+                <div className="flex-1 flex flex-col w-full">
+                  <div className="flex items-center justify-between mb-2">
+                    <Label htmlFor="area" className="text-sm font-medium text-gray-700 mr-2">Area:</Label>
+                    <HelpTooltip text="The total surface area of your slab. For irregularly shaped slabs, measure or calculate the area directly." />
                   </div>
-                  <div className="col-span-3 relative">
+                  <div className="relative w-full">
                     <Input
                       id="area"
                       type="number"
@@ -248,7 +236,7 @@ const DimensionsInput = ({
                           onDimensionChange("width", 1);
                         }
                       }}
-                      className="pr-16 h-10 font-medium"
+                      className="pr-16 h-12 font-medium w-full"
                     />
                     <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
                       <span className="text-gray-500 sm:text-sm font-medium">{unitType === "metric" ? "m²" : "ft²"}</span>
@@ -263,15 +251,12 @@ const DimensionsInput = ({
               <div className="w-8 h-8 rounded-full bg-blue-50 flex items-center justify-center mr-3 flex-shrink-0">
                 <LayersIcon className="h-4 w-4 text-primary" />
               </div>
-              <div className="flex-1 grid grid-cols-4 gap-2 items-center">
-                <div>
-                  <div className="flex items-center space-x-1 mb-1.5">
-                    <Label htmlFor="thickness" className="text-sm font-medium text-gray-700">Thickness:</Label>
-                    <div className="flex-1"></div>
-                    <HelpTooltip text="The vertical height or depth of the slab. Standard slabs are typically 4-6 inches (0.1-0.15m) thick, but may vary based on application." />
-                  </div>
+              <div className="flex-1 flex flex-col w-full">
+                <div className="flex items-center justify-between mb-2">
+                  <Label htmlFor="thickness" className="text-sm font-medium text-gray-700 mr-2">Thickness:</Label>
+                  <HelpTooltip text="The vertical height or depth of the slab. Standard slabs are typically 4-6 inches (0.1-0.15m) thick, but may vary based on application." />
                 </div>
-                <div className="col-span-3 relative">
+                <div className="relative w-full">
                   <Input
                     id="thickness"
                     type="number"
@@ -280,7 +265,7 @@ const DimensionsInput = ({
                     min={0.05}
                     step={0.05}
                     onChange={(e) => handleInputChange(e, "thickness")}
-                    className="pr-10 h-10 font-medium"
+                    className="pr-10 h-12 font-medium w-full"
                   />
                   <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
                     <span className="text-gray-500 sm:text-sm font-medium">{unitDisplay}</span>
@@ -294,15 +279,12 @@ const DimensionsInput = ({
               <div className="w-8 h-8 rounded-full bg-green-50 flex items-center justify-center mr-3 flex-shrink-0">
                 <DollarSignIcon className="h-4 w-4 text-green-600" />
               </div>
-              <div className="flex-1 grid grid-cols-4 gap-2 items-center">
-                <div>
-                  <div className="flex items-center space-x-1 mb-1.5">
-                    <Label htmlFor="price" className="text-sm font-medium text-gray-700">Price:</Label>
-                    <div className="flex-1"></div>
-                    <HelpTooltip text={`The cost of concrete per cubic ${unitType === "metric" ? "meter" : "yard"}. This varies by location and concrete type. You may need to check with local suppliers for accurate pricing.`} />
-                  </div>
+              <div className="flex-1 flex flex-col w-full">
+                <div className="flex items-center justify-between mb-2">
+                  <Label htmlFor="price" className="text-sm font-medium text-gray-700 mr-2">Price:</Label>
+                  <HelpTooltip text={`The cost of concrete per cubic ${unitType === "metric" ? "meter" : "yard"}. This varies by location and concrete type. You may need to check with local suppliers for accurate pricing.`} />
                 </div>
-                <div className="col-span-3 relative">
+                <div className="relative w-full">
                   <Input
                     id="price"
                     type="number" 
@@ -311,7 +293,7 @@ const DimensionsInput = ({
                     min={1}
                     step={1}
                     onChange={(e) => handleInputChange(e, "price")}
-                    className="pl-8 pr-16 h-10 font-medium"
+                    className="pl-8 pr-16 h-12 font-medium w-full"
                   />
                   <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
                     <span className="text-gray-500 sm:text-sm font-medium">$</span>
