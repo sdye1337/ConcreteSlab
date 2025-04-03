@@ -14,72 +14,88 @@ const SlabVisualization = ({
   const displayUnit = unitType === "metric" ? "m" : "ft";
   
   return (
-    <div className="slab-visualization w-full h-48 mb-5 flex items-center justify-center">
-      <div className="slab-3d relative" style={{ 
-        perspective: "1000px",
-        transformStyle: "preserve-3d",
-        transform: "rotateX(60deg) rotateZ(-45deg)",
-        transition: "all 0.3s ease"
-      }}>
-        {/* Top Surface */}
-        <div 
-          className="absolute bg-gradient-to-br from-blue-50 to-blue-100 border border-blue-300 rounded-md shadow-sm"
-          style={{ 
-            width: "10rem", 
-            height: "10rem", 
-            transform: "translateZ(20px)" 
-          }}
-        >
-          <div className="w-full h-full flex items-center justify-center text-sm text-blue-700 font-medium">
-            {length} {displayUnit} × {width} {displayUnit}
+    <div className="relative w-full mb-8 pt-6">
+      {/* Help icon and message */}
+      <div className="absolute -top-0 right-0 group">
+        <div className="flex items-center justify-center w-6 h-6 rounded-full bg-gray-100 cursor-pointer text-gray-500 hover:bg-blue-100 hover:text-blue-600">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+            <line x1="12" y1="17" x2="12.01" y2="17"></line>
+          </svg>
+        </div>
+        <div className="absolute right-0 mt-1 z-20 origin-top-right hidden group-hover:block">
+          <div className="bg-white shadow-lg rounded-md w-64 p-3 text-xs text-gray-700 border border-gray-200">
+            <p className="font-medium mb-1">Concrete Slab Dimensions</p>
+            <p>This is a visual representation of your concrete slab with dimensions:</p>
+            <ul className="mt-1 pl-4 list-disc space-y-1">
+              <li><span className="font-medium">Length:</span> How long the slab is</li>
+              <li><span className="font-medium">Width:</span> How wide the slab is</li>
+              <li><span className="font-medium">Thickness:</span> How deep/thick the slab is</li>
+            </ul>
           </div>
         </div>
-        
-        {/* Front Side */}
-        <div 
-          className="absolute bg-gradient-to-b from-blue-200 to-blue-300 border border-blue-300 rounded-sm"
-          style={{ 
-            width: "10rem", 
-            height: "1.5rem", 
-            transform: "rotateX(90deg) translateZ(-80px) translateY(-12px)" 
-          }}
-        >
-          <div className="w-full h-full flex items-center justify-center text-xs text-blue-800 font-medium">
-            {thickness} {displayUnit}
+      </div>
+
+      {/* Title */}
+      <h3 className="text-sm font-medium text-gray-700 mb-3 ml-1">Visual Representation:</h3>
+      
+      {/* Slab diagram */}
+      <div className="flex items-center justify-center">
+        <div className="relative aspect-square max-w-[280px] h-auto border border-gray-300 bg-gray-50 rounded-lg p-4">
+          {/* Concrete slab box */}
+          <div className="bg-gray-100 border border-blue-300 rounded-md shadow-md relative aspect-square w-full h-auto flex flex-col justify-between">
+            {/* Top surface */}
+            <div className="flex-1 p-2 bg-gradient-to-br from-blue-50 to-blue-100">
+              {/* Grid pattern */}
+              <div 
+                className="absolute inset-0 opacity-30"
+                style={{ 
+                  backgroundImage: "linear-gradient(to right, #ddd 1px, transparent 1px), linear-gradient(to bottom, #ddd 1px, transparent 1px)",
+                  backgroundSize: "20px 20px"
+                }}
+              ></div>
+              
+              {/* Center text */}
+              <div className="relative h-full flex flex-col items-center justify-center">
+                <span className="text-lg font-semibold text-blue-800">{length} × {width}</span>
+                <span className="text-xs text-blue-600">{displayUnit}</span>
+              </div>
+
+              {/* Length arrow and label */}
+              <div className="absolute -top-7 left-0 w-full flex flex-col items-center">
+                <div className="flex items-center w-full px-2">
+                  <div className="w-1 h-1 bg-gray-400 rounded-full"></div>
+                  <div className="h-0.5 bg-gray-400 flex-1"></div>
+                  <div className="w-1 h-1 bg-gray-400 rounded-full"></div>
+                </div>
+                <span className="text-xs text-gray-600 mt-0.5">Length: {length} {displayUnit}</span>
+              </div>
+
+              {/* Width arrow and label */}
+              <div className="absolute -left-7 top-0 h-full flex flex-col items-center justify-center transform -rotate-90 origin-left">
+                <div className="flex items-center w-full px-2 transform rotate-180">
+                  <div className="w-1 h-1 bg-gray-400 rounded-full"></div>
+                  <div className="h-0.5 bg-gray-400 flex-1"></div>
+                  <div className="w-1 h-1 bg-gray-400 rounded-full"></div>
+                </div>
+                <span className="text-xs text-gray-600 mt-0.5 transform rotate-180">Width: {width} {displayUnit}</span>
+              </div>
+            </div>
+
+            {/* Thickness indicator */}
+            <div className="h-8 bg-blue-200 border-t border-blue-300 rounded-b-md flex items-center justify-center relative">
+              <span className="text-xs font-medium text-blue-800">Thickness: {thickness} {displayUnit}</span>
+              
+              {/* Thickness arrows */}
+              <div className="absolute -right-10 top-0 h-full flex items-center">
+                <div className="flex flex-col items-center">
+                  <div className="h-full w-0.5 bg-gray-400 flex-1"></div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-        
-        {/* Left Side */}
-        <div 
-          className="absolute bg-gradient-to-r from-blue-200 to-blue-300 border border-blue-300 rounded-sm"
-          style={{ 
-            width: "1.5rem", 
-            height: "10rem", 
-            transform: "rotateY(90deg) translateZ(80px) translateX(-12px)" 
-          }}
-        ></div>
-        
-        {/* Grid lines on top surface for visual appeal */}
-        <div 
-          className="absolute pointer-events-none"
-          style={{ 
-            width: "10rem", 
-            height: "10rem", 
-            transform: "translateZ(21px)",
-            background: "linear-gradient(to right, transparent 9.09%, rgba(59, 130, 246, 0.1) 9.09%, rgba(59, 130, 246, 0.1) 10%, transparent 10%)",
-            backgroundSize: "10% 100%"
-          }}
-        ></div>
-        <div 
-          className="absolute pointer-events-none"
-          style={{ 
-            width: "10rem", 
-            height: "10rem", 
-            transform: "translateZ(21px)",
-            background: "linear-gradient(to bottom, transparent 9.09%, rgba(59, 130, 246, 0.1) 9.09%, rgba(59, 130, 246, 0.1) 10%, transparent 10%)",
-            backgroundSize: "100% 10%"
-          }}
-        ></div>
       </div>
     </div>
   );

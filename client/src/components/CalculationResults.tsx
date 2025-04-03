@@ -1,9 +1,10 @@
 import { Button } from "@/components/ui/button";
-import { Share2, Save, Calculator, Info } from "lucide-react";
+import { Share2, Save, Calculator, Info, HelpCircle } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useMutation } from "@tanstack/react-query";
 import { apiRequest, queryClient } from "@/lib/queryClient";
 import type { InsertCalculation } from "@shared/schema";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 
 interface CalculationResultsProps {
   volume: number;
@@ -83,14 +84,90 @@ const CalculationResults = ({
 
   return (
     <div className="bg-white rounded-xl shadow-sm p-5 mb-6">
-      <h2 className="text-base font-semibold flex items-center mb-4">
-        <Calculator className="h-5 w-5 text-primary mr-2" />
-        Calculation Results
-      </h2>
+      <div className="flex items-center justify-between mb-4">
+        <h2 className="text-base font-semibold flex items-center">
+          <Calculator className="h-5 w-5 text-primary mr-2" />
+          Calculation Results
+        </h2>
+        
+        {/* How we calculate button */}
+        <Popover>
+          <PopoverTrigger asChild>
+            <Button variant="outline" size="sm" className="h-8 px-2.5 py-1.5 text-xs border-blue-100 bg-blue-50 text-blue-700 hover:bg-blue-100">
+              <HelpCircle className="h-3.5 w-3.5 mr-1.5" />
+              How we calculate
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent className="w-80 p-4">
+            <div className="space-y-3">
+              <h3 className="font-medium text-sm text-primary">Calculation Methods</h3>
+              
+              <div className="space-y-3 text-xs">
+                <div className="p-2.5 bg-blue-50 rounded border border-blue-100">
+                  <p className="font-medium text-blue-700">Volume Calculation</p>
+                  <div className="mt-1 text-gray-700">
+                    <p>Volume is calculated using the formula:</p>
+                    <div className="font-mono bg-white/70 p-2 rounded mt-1 text-blue-800 border border-blue-200">
+                      Volume = Length × Width × Thickness
+                    </div>
+                    <div className="mt-2">
+                      <p>For your slab:</p>
+                      <p className="font-mono bg-white/70 p-2 rounded mt-1 text-blue-800 border border-blue-200">
+                        {dimensions.length} × {dimensions.width} × {dimensions.thickness} = {volume.toFixed(2)} {shortVolumeUnit}
+                      </p>
+                    </div>
+                    {unitType === "imperial" && (
+                      <p className="text-xs mt-2 italic">Note: For imperial measurements, we convert from cubic feet to cubic yards for standard industry pricing (27 cubic feet = 1 cubic yard).</p>
+                    )}
+                  </div>
+                </div>
+                
+                <div className="p-2.5 bg-green-50 rounded border border-green-100">
+                  <p className="font-medium text-green-700">Cost Calculation</p>
+                  <div className="mt-1 text-gray-700">
+                    <p>Cost is calculated using the formula:</p>
+                    <div className="font-mono bg-white/70 p-2 rounded mt-1 text-green-800 border border-green-200">
+                      Cost = Volume × Price per unit volume
+                    </div>
+                    <div className="mt-2">
+                      <p>For your slab:</p>
+                      <p className="font-mono bg-white/70 p-2 rounded mt-1 text-green-800 border border-green-200">
+                        {volume.toFixed(2)} {shortVolumeUnit} × ${price} = ${cost.toFixed(2)}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </PopoverContent>
+        </Popover>
+      </div>
       
       <div className="space-y-4">
         {/* Volume */}
-        <div className="flex justify-between items-center p-4 bg-gradient-to-r from-blue-50 to-blue-100 rounded-lg border border-blue-200">
+        <div className="flex justify-between items-center p-4 bg-gradient-to-r from-blue-50 to-blue-100 rounded-lg border border-blue-200 relative">
+          <div className="absolute -top-1 -right-1">
+            <Popover>
+              <PopoverTrigger asChild>
+                <Button size="icon" variant="outline" className="h-6 w-6 rounded-full bg-blue-100 border-blue-300 text-blue-700 hover:bg-blue-200 p-0">
+                  <HelpCircle className="h-3.5 w-3.5" />
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent side="top" className="w-72 p-3 text-xs">
+                <div className="space-y-2">
+                  <h4 className="font-medium">Concrete Volume Calculation</h4>
+                  <p>This is the total amount of concrete needed for your slab.</p>
+                  <div className="bg-blue-50 p-2 rounded border border-blue-100 mt-2">
+                    <p className="font-medium">Your calculation:</p>
+                    <p className="mt-1">
+                      {dimensions.length} {unitType === "metric" ? "m" : "ft"} × {dimensions.width} {unitType === "metric" ? "m" : "ft"} × {dimensions.thickness} {unitType === "metric" ? "m" : "ft"} = {volume.toFixed(2)} {shortVolumeUnit}
+                    </p>
+                  </div>
+                </div>
+              </PopoverContent>
+            </Popover>
+          </div>
+
           <div>
             <h3 className="text-sm font-medium text-gray-800">Concrete Volume:</h3>
             <p className="text-xs text-gray-600 mt-0.5">Length × Width × Thickness</p>
@@ -102,7 +179,30 @@ const CalculationResults = ({
         </div>
         
         {/* Cost */}
-        <div className="flex justify-between items-center p-4 bg-gradient-to-r from-green-50 to-green-100 rounded-lg border border-green-200">
+        <div className="flex justify-between items-center p-4 bg-gradient-to-r from-green-50 to-green-100 rounded-lg border border-green-200 relative">
+          <div className="absolute -top-1 -right-1">
+            <Popover>
+              <PopoverTrigger asChild>
+                <Button size="icon" variant="outline" className="h-6 w-6 rounded-full bg-green-100 border-green-300 text-green-700 hover:bg-green-200 p-0">
+                  <HelpCircle className="h-3.5 w-3.5" />
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent side="top" className="w-72 p-3 text-xs">
+                <div className="space-y-2">
+                  <h4 className="font-medium">Cost Calculation</h4>
+                  <p>This is the estimated cost of concrete for your slab based on your specified price.</p>
+                  <div className="bg-green-50 p-2 rounded border border-green-100 mt-2">
+                    <p className="font-medium">Your calculation:</p>
+                    <p className="mt-1">
+                      {volume.toFixed(2)} {shortVolumeUnit} × ${price}/{shortVolumeUnit} = ${cost.toFixed(2)}
+                    </p>
+                  </div>
+                  <p className="mt-2 italic text-gray-500">Note: Actual costs may vary based on location, concrete type, and supplier.</p>
+                </div>
+              </PopoverContent>
+            </Popover>
+          </div>
+
           <div>
             <h3 className="text-sm font-medium text-gray-800">Estimated Cost:</h3>
             <p className="text-xs text-gray-600 mt-0.5">Volume × Price per {shortVolumeUnit}</p>

@@ -13,6 +13,7 @@ import { useLocation } from "wouter";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { apiRequest, queryClient } from "@/lib/queryClient";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
+import { Calculation } from "@shared/schema";
 
 const SettingsPage = () => {
   const { toast } = useToast();
@@ -23,7 +24,7 @@ const SettingsPage = () => {
   const [isClearingHistory, setIsClearingHistory] = useState(false);
 
   // Get the count of calculations
-  const { data: calculations = [] } = useQuery({
+  const { data: calculations = [] } = useQuery<Calculation[]>({
     queryKey: ["/api/calculations"],
   });
 
